@@ -4,7 +4,7 @@ const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
 
 //serialport for Zumo
-const port = new SerialPort('COM13', {baudRate: 9600})
+const port = new SerialPort('COM2', {baudRate: 9600})
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config.json');
@@ -27,13 +27,12 @@ if(msg.author.id == 635883330797043723) {return}
         console.log(config.client_id);
             
             if(msg.content === "/inst"){
-                msg.reply("do /forward, /back, /left or /right")
+                msg.reply("do /forward, /back, /left, /right or /speed")
             }
 
             else if(msg.content === "/forward"){
                 const parser = new Readline()
                 port.pipe(parser)
-
                 parser.on('data', line => console.log(`> ${line}`))
                 port.write('1')
                 msg.reply("Going Forward");
@@ -71,7 +70,24 @@ if(msg.author.id == 635883330797043723) {return}
                 port.write('5')
                 msg.reply("Doing a 180");
             }
-            else{ return msg.reply("Invalid Instruction, type /inst for instructions")};
+
+            
+            // else if(msg.content === "/speed"){
+            //     const parser = new Readline()
+               
+            //     msg.reply("Please enter new speed value")
+            //     const collector = new Discord.MessageCollector(msg.channel, m => m.author.id === msg.author.id, { time: 10000 });
+            //     collector.on('collect', msg => {
+            //       const args = '6'+ " " + msg.content.split(' ');
+            //       msg.reply(args)
+            //       console.log(args)
+            //       port.pipe(parser)
+            //       parser.on('data', line => console.log(`> ${line}`))
+            //       port.write('6', args)
+            //     })
+                
+            // }
+            //else{ return msg.reply("Invalid Instruction, type /inst for instructions")};
      }
 });
 
