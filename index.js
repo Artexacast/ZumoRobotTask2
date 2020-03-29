@@ -6,7 +6,9 @@ const Readline = require('@serialport/parser-readline')
 //serialport for Zumo
 //com13 for XBEE
 const port = new SerialPort('COM2', {baudRate: 9600})
+
 port.setMaxListeners(20);
+
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config.json');
@@ -22,7 +24,7 @@ client.on('ready', () => {
 client.on('message', msg => 
 {
 
-if(msg.author.id == 635883330797043723) {return}
+if(msg.author.id == 635883330797043723){return}
 
     else{
         console.log(msg.author.id);
@@ -43,7 +45,6 @@ if(msg.author.id == 635883330797043723) {return}
             else if(msg.content === "/back"){
                 const parser = new Readline()
                 port.pipe(parser)
-
                 parser.on('data', line => console.log(`> ${line}`))
                 port.write('2')
                 msg.reply("Going Back");
@@ -91,7 +92,10 @@ if(msg.author.id == 635883330797043723) {return}
                 })
                 
             }
-            else{ return msg.reply("Invalid Instruction, type /inst for instructions")};
+
+        else{ 
+            return msg.reply("Invalid Instruction, type /inst for instructions")
+            };
      }
 });
 
