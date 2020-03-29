@@ -24,7 +24,7 @@ client.on('ready', () => {
 client.on('message', msg => 
 {
 
-if(msg.author.id == 635883330797043723){return}
+if(msg.author.id == authorID){return}
 
     else{
         console.log(msg.author.id);
