@@ -4,7 +4,9 @@ const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
 
 //serialport for Zumo
+//com13 for XBEE
 const port = new SerialPort('COM2', {baudRate: 9600})
+port.setMaxListeners(20);
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config.json');
@@ -72,27 +74,30 @@ if(msg.author.id == 635883330797043723) {return}
             }
 
             
-            // else if(msg.content === "/speed"){
-            //     const parser = new Readline()
+            else if(msg.content === "/speed"){
+                const parser = new Readline()
                
-            //     msg.reply("Please enter new speed value")
-            //     const collector = new Discord.MessageCollector(msg.channel, m => m.author.id === msg.author.id, { time: 10000 });
-            //     collector.on('collect', msg => {
-            //       const args = '6'+ " " + msg.content.split(' ');
-            //       msg.reply(args)
-            //       console.log(args)
-            //       port.pipe(parser)
-            //       parser.on('data', line => console.log(`> ${line}`))
-            //       port.write('6', args)
-            //     })
+                msg.reply("Please enter new speed value")
+                const collector = new Discord.MessageCollector(msg.channel, m => m.author.id === msg.author.id, { time: 10000 });
+                collector.on('collect', msg => {
+                  const args = msg.content.split(' ');
+                  const parsed = parseInt(args);
+                  msg.reply(args)
+                  console.log(parsed)
+                  port.pipe(parser)
+                  parser.on('data', line => console.log(`> ${line}`))
+                  port.write('6');
+                  port.write(parsed.toString());
+                })
                 
-            // }
-            //else{ return msg.reply("Invalid Instruction, type /inst for instructions")};
+            }
+            else{ return msg.reply("Invalid Instruction, type /inst for instructions")};
      }
 });
 
 client.login(config.token);
 
+//list serial ports for connection
 // SerialPort.list().then(
 //   ports => ports.forEach(console.log),
 //   err => console.error(err)
